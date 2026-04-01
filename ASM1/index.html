@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body onload="auto()">
+    <img src="./img/0.JPG" alt="" id="anh">
+    <hr>
+    <button onclick="previous()">Previous</button>
+    <button onclick="next()">Next</button>
+    <button onclick="auto()">Start</button>
+    <button onclick="stop()">Stop</button>
+    <script>
+        //phần chung 
+        var img = [];
+        var index = 0;
+        for(var i = 0 ; i<6;i++){
+            img[i] = new Image();// khởi tạo đối tượng
+            img[i].src = "img/"+i+".JPG";
+        }
+        function first(){
+            index = 0;
+            var anh = document.getElementById("anh");
+            anh.src = img[index].src;
+        }
+        function last(){
+            index = img.length-1;
+            var anh = document.getElementById("anh");
+            anh.src = img[index].src;
+        }
+        function previous(){
+            index --;
+            if(index<0){
+                index = img.length-1;
+            }
+            var anh = document.getElementById("anh");
+            anh.src = img[index].src;
+        }
+        function next(){
+            index++;
+            if(index>=img.length){
+                index = 0;
+            }
+            var anh = document.getElementById("anh");
+            anh.src = img[index].src;
+        }
+        function auto(){
+            //lặp lại liên tục hàm next sau mỗi 1000ms
+            t = setInterval(next,1000);
+        }
+        function stop(){
+            clearInterval(t);
+        }
+    </script>
+</body>
+</html>

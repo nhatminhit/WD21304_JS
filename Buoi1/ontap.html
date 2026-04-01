@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //bài 1:
+        // nhập 2 số a và b, in ra a^b
+        // var a = Number(prompt("Nhập số a: "));
+        // var b = Number(prompt("Nhập số b: "));
+        // var kq = Math.pow(a,b);
+        // document.write("<br>"+"Kết quả là: "+kq);
+        //bài 2: 
+        // nhập 3 cạnh a, b, c của tam giác, in ra chu vi và diện tích của tam giác đó
+        // var c = Number(prompt("Nhập số c: "));
+        // var p = a+b+c;
+        // var nuacv = p/2;
+        // var s = Math.sqrt(nuacv*(nuacv-a)*(nuacv-b)*(nuacv-c));
+        // document.write("<br>"+"Chu vi tam giác là: "+p+"<br>");
+        // document.write("Diện tích tam giác là: "+s);
+        // max - min
+        // tìm số max của 1, -5,2
+        console.log(Math.max(1,-5,2));
+        // ép kiểu
+        var number = 8.345;
+        var epkieu = parseFloat(number);
+        console.log(epkieu);
+        console.log(epkieu.toFixed(2));
+        console.log(Math.random().toFixed(2));
+        let str1 = 'hello';
+        let str2 = "world";
+        console.log(`Hello ${str2}`);
+        let ten_bien = "abc";
+        if(true){
+            let canhHuyen = 10;
+            console.log(canhHuyen);
+            canhHuyen = 20;
+            console.log(canhHuyen);
+        }
+        //console.log("giá trị cạnh huyền ngoài block"+canhHuyen);
+        const PI = 3.14;
+        console.log(PI);
+        PI = 3.14159; 
+        console.log(PI);
+    </script>
+</body>
+</html>

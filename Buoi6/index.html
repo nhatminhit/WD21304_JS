@@ -4,11 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .highlight{
+            color: yellow;
+        }
+    </style>
 </head>
 <body>
-    <button onclick="gotoDanTri()">Chuyển Trang</button>
+    <div class="container">
+        <h2 id="title">Trang Chủ</h2>
+        <p class="description">Đây là trang chủ của tôi</p>
+        <button onclick="changeContent()">Thay đổi nội dung</button>
+        <button onclick="changeStyle()">Thay đổi thuộc tính</button>
+        <input type="text" id="userInput" placeholder="Nhập nội dung...">
+        <button onclick="addItem()">Thêm phần tử</button>
+        <button onclick="removeItem()">Xoá phần tử</button>
+        <div id="list">
+            <p>Danh sách các phần tử:</p>
+        </div>
+    </div>
+    <!-- <button onclick="gotoDanTri()">Chuyển Trang</button>
     <button onclick="reloadPage()">Tải Lại Trang</button>
-    <button onclick="openStudentInfo()">Thông Tin Sinh Viên</button>
-    <script src="js.js"></script>
+    <button onclick="openStudentInfo()">Thông Tin Sinh Viên</button> -->
+    <script src="dom.js"></script>
 </body>
 </html>

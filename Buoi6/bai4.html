@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý giỏ hàng</title>
+</head>
+<body>
+    <!-- Khu vực nhập liệu sản phẩm mới -->
+    <h2>Thêm sản phẩm</h2>
+    <div>
+        Tên sản phẩm: <input type="text" id="itemName" placeholder="VD: Cà Phê Muối">
+        Giá: <input type="number" id="itemPrice" placeholder="VD: 45000">
+        <button onclick="addSP()">Thêm vào giỏ hàng</button>
+    </div>
+    <hr>
+
+    <!-- Bảng hiển thị danh sách sản phẩm trong giỏ -->
+    <table border="1" width="100%">
+        <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Đơn giá</th>
+                <th>Số Lượng</th>
+                <th>Thành Tiền</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody id="cart">
+            <!-- Nơi JavaScript sẽ chèn các dòng (tr) dữ liệu vào -->
+        </tbody>
+    </table>
+    
+    <!-- Hiển thị tổng tiền cuối cùng -->
+    <p>
+        <strong>Tổng tiền: <span id="total">0đ</span></strong>
+    </p>
+
+    <script>
+        // Khởi tạo mảng dữ liệu mẫu ban đầu
+        let cart = [
+            { name: "Cà Phê Xanh", price: 180000, qty: 1 },
+            { name: "Cà Phê Arabica", price: 120000, qty: 2 }
+        ];
+
+        // Hàm dùng để vẽ (hiển thị) dữ liệu từ mảng lên màn hình
+        function renderCart() {
+            const cartTable = document.getElementById("cart"); // Lấy thẻ tbody của bảng
+            const totalDisplay = document.getElementById("total"); // Lấy thẻ chứa tổng tiền
+            let html = ""; // Biến chứa chuỗi HTML sẽ chèn vào bảng
+            let totalAmount = 0; // Biến tính tổng tiền tích lũy
+
+            // Duyệt qua từng phần tử trong mảng giỏ hàng
+            cart.forEach((item, index) => {
+                let subtotal = item.price * item.qty; // Tính thành tiền cho từng món
+                totalAmount += subtotal; // Cộng dồn vào tổng tiền chung
+
+                // Cộng dồn chuỗi HTML để tạo một dòng (row) cho bảng
+                html += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.price.toLocaleString()}đ</td>
+                        <td>
+                            <button onclick="changeQty(${index}, -1)">-</button>
+                            ${item.qty}
+                            <button onclick="changeQty(${index}, 1)">+</button>
+                        </td>
+                        <td>${subtotal.toLocaleString()}đ</td>
+                        <td><button onclick="removeSP(${index})">Xoá</button></td>
+                    </tr>
+                `;
+            });
+
+            cartTable.innerHTML = html; // Đổ toàn bộ chuỗi HTML vừa tạo vào tbody
+            totalDisplay.innerText = totalAmount.toLocaleString() + "đ"; // Cập nhật tổng tiền lên giao diện
+        }
+
+        // Hàm xử lý khi nhấn nút "Thêm vào giỏ hàng"
+        function addSP() {
+            const nameInput = document.getElementById("itemName"); // Lấy ô nhập tên
+            const priceInput = document.getElementById("itemPrice"); // Lấy ô nhập giá
+            const name = nameInput.value.trim(); // Lấy giá trị tên và xóa khoảng trắng thừa
+            const price = parseInt(priceInput.value); // Chuyển đổi giá trị giá sang số nguyên
+
+            // Kiểm tra nếu người dùng để trống hoặc nhập sai định dạng
+            if (name === "" || isNaN(price)) {
+                alert("Vui lòng nhập đầy đủ thông tin");
+                return; // Dừng hàm, không thực hiện tiếp
+            }
+
+            // Kiểm tra xem sản phẩm này đã có trong mảng chưa (so sánh không phân biệt hoa thường)
+            let existingItem = cart.find(item => item.name.toLowerCase() === name.toLowerCase());
+
+            if (existingItem) {
+                existingItem.qty++; // Nếu có rồi thì chỉ tăng số lượng
+            } else {
+                cart.push({ name: name, price: price, qty: 1 }); // Nếu chưa có thì thêm món mới vào mảng
+            }
+
+            nameInput.value = ""; // Xóa trắng ô nhập tên sau khi thêm thành công
+            priceInput.value = ""; // Xóa trắng ô nhập giá sau khi thêm thành công
+            renderCart(); // Gọi hàm render để cập nhật lại giao diện ngay lập tức
+        }
+
+        // Hàm thay đổi số lượng khi bấm nút + hoặc -
+        function changeQty(index, offset) {
+            cart[index].qty += offset; // Cộng thêm giá trị offset (-1 hoặc 1)
+            if (cart[index].qty < 1) cart[index].qty = 1; // Ràng buộc số lượng không được nhỏ hơn 1
+            renderCart(); // Cập nhật lại giao diện
+        }
+
+        // Hàm xóa sản phẩm khỏi giỏ hàng
+        function removeSP(index) {
+            cart.splice(index, 1); // Xóa 1 phần tử tại vị trí index trong mảng
+            renderCart(); // Cập nhật lại giao diện
+        }
+
+        // Lệnh chạy lần đầu tiên khi trang web vừa tải xong để hiển thị dữ liệu mẫu
+        renderCart();
+    </script>
+</body>
+</html>

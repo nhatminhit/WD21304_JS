@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Viewer & Login</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body onload="auto()">
+    <div class="main-container">
+        <div class="screen">
+            <img id="display-img" src="img/0.JPG" alt="Chưa có ảnh">
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="previous()">PRE</button>
+            <button class="btn" onclick="stopp()">STOP</button>
+            <button class="btn" onclick="auto()">START</button>
+            <button class="btn" onclick="next()">NEXT</button>
+        </div>
+
+        <hr>
+
+        <div class="login-card">
+            <div class="login-header">ĐĂNG NHẬP</div>
+            <form class="login-form" onsubmit="return kiemTra()">
+                <div class="input-group">
+                    <label>Đăng nhập bằng email</label>
+                    <input type="email" id="email">
+                </div>
+                <div class="input-group">
+                    <label>Mật khẩu</label>
+                    <input type="password" id="password">
+                </div>
+                <button type="submit" class="btn-login">ĐĂNG NHẬP</button>
+            </form>
+        </div>
+        
+    </div>
+</body>
+</html>

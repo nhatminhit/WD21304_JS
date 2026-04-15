@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt vé xem phim</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f5f5;
+        }
+        .container {
+            width: 420px;
+            margin: 40px auto;
+            border: 1px solid #333;
+            padding: 20px;
+            background: #fff;
+        }
+        h2 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        label {
+            display: inline-block;
+            width: 140px;
+        }
+        input, select {
+            width: 200px;
+            padding: 4px;
+        }
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-left: 140px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 8px 16px;
+        }
+        .radio-options {
+            display: flex;
+            gap: 18px;
+        }
+        .radio-options label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .form-group.radio-group {
+            display: flex;
+            align-items: center;
+        }
+        .form-group.radio-group > label {
+            width: auto;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>ĐẶT VÉ XEM PHIM</h2>
+
+    <div class="form-group">
+        <label>Tên khách:</label>
+        <input type="text" id="ten">
+        <div class="error" id="errTen"></div>
+    </div>
+
+    <div class="form-group">
+        <label>Loại vé:</label>
+        <select id="loaiVe">
+            <option value="">--Chọn--</option>
+            <option value="50000">Vé thường</option>
+            <option value="100000">Vé VIP</option>
+            <option value="180000">Vé đôi</option>
+        </select>
+        <div class="error" id="errLoai"></div>
+    </div>
+
+    <div class="form-group">
+        <label>Giá vé:</label>
+        <input type="text" id="giaVe" readonly>
+    </div>
+
+    <div class="form-group">
+        <label>Số lượng:</label>
+        <input type="number" id="soLuong">
+        <div class="error" id="errSL"></div>
+    </div>
+
+    <div class="form-group radio-group">
+        <label>Nhận vé:</label>
+        <div class="radio-options">
+            <label><input type="radio" name="nhan" value="0"> Tại rạp</label>
+            <label><input type="radio" name="nhan" value="20000"> Giao tận nơi</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Phí giao:</label>
+        <input type="text" id="phi" value="0" readonly>
+    </div>
+
+    <div class="form-group">
+        <label>Tổng tiền:</label>
+        <input type="text" id="tongTien" readonly>
+    </div>
+
+    <button onclick="datVe()">Đặt vé</button>
+</div>
+
+<script>
+    const loaiVe = document.getElementById("loaiVe");
+    const giaVe = document.getElementById("giaVe");
+    const soLuong = document.getElementById("soLuong");
+    const radios = document.getElementsByName("nhan");
+    const phi = document.getElementById("phi");
+    const tongTienInput = document.getElementById("tongTien");
+
+    // cập nhật giá vé
+    loaiVe.addEventListener("change", function () {
+        giaVe.value = this.value;
+        tinhTongTien();
+    });
+
+    // cập nhật phí giao
+    radios.forEach(r => {
+        r.addEventListener("change", function () {
+            phi.value = this.value;
+            tinhTongTien();
+        });
+    });
+
+    // nhập số lượng -> tính luôn
+    soLuong.addEventListener("input", tinhTongTien);
+
+    function tinhTongTien() {
+        let gia = Number(giaVe.value);
+        let sl = Number(soLuong.value);
+        let phiShip = Number(phi.value);
+
+        if (!gia || !sl || sl <= 0) {
+            tongTienInput.value = "";
+            return;
+        }
+
+        let tong = gia * sl;
+
+        // giảm 10% nếu > 5 vé
+        if (sl > 5) {
+            tong *= 0.9;
+        }
+
+        // VIP + giao tận nơi -> free ship
+        if (gia === 100000 && phiShip === 20000) {
+            phiShip = 0;
+        }
+
+        tong += phiShip;
+
+        tongTienInput.value = tong.toLocaleString() + " VND";
+    }
+
+    function datVe() {
+        let ten = document.getElementById("ten").value.trim();
+        let gia = Number(giaVe.value);
+        let sl = Number(soLuong.value);
+
+        let err = false;
+
+        // reset lỗi
+        document.getElementById("errTen").innerText = "";
+        document.getElementById("errLoai").innerText = "";
+        document.getElementById("errSL").innerText = "";
+
+        // validate
+        if (ten === "") {
+            document.getElementById("errTen").innerText = "Vui lòng nhập tên";
+            err = true;
+        }
+
+        if (gia === 0) {
+            document.getElementById("errLoai").innerText = "Chọn loại vé";
+            err = true;
+        }
+
+        if (sl <= 0 || isNaN(sl)) {
+            document.getElementById("errSL").innerText = "Số lượng phải > 0";
+            err = true;
+        }
+
+        if (err) return;
+
+        alert("Đặt vé thành công!");
+    }
+</script>
+
+</body>
+</html>

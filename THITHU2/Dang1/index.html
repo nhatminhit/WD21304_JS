@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- số ngày đi làm phải là số
+    Mật khẩu phải có ít nhất 1 chữ in Hoa và có tối thiểu 8 kí tự -->
+    <form action="" onsubmit="return check()">
+        Số ngày đi làm: <input type="number" id="day"><br>
+        Mật khẩu: <input type="password" id="pass"><br>
+        <button type="submit">Gửi</button>
+    </form>
+    <script>
+        function check(){
+            let day = document.getElementById("day").value;
+            let pass = document.getElementById("pass").value;
+            // số ngày làm việc phải là số
+            if(isNaN(day)||day==""){
+                alert("Số ngày đi làm phải là số");
+                return false;
+            }
+            if(pass === ""){
+                alert("Mật khẩu không được để trống");
+                return false;
+            }
+            if(pass.length < 8){
+                alert("Mật khẩu phải có tối thiểu 8 kí tự");
+                return false;
+            }
+            let upperRegex = /[A-Z]/; // tạo một biến regex để kiểm tra xem có ít nhất 1 chữ cái hoa
+            let lowerRegex = /[a-z]/; // tạo một biến regex để kiểm tra xem có ít nhất 1 chữ cái thường
+            if(!upperRegex.test(pass)&&!lowerRegex.test(pass)){
+                alert("Mật khẩu phải có ít nhất 1 chữ in Hoa và 1 chữ cái thường");
+                return false;
+            }
+            alert("Đăng nhập thành công");
+            return true;
+        }
+    </script>
+</body>
+</html>

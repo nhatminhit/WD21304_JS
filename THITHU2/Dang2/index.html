@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Đặt Hàng</h2>
+    <form action="" onsubmit="return kiem_tra()">
+        Sản phẩm: <input type="text" id="san_pham"><br><br>
+        Loại
+        <select id="loai" onchange="chon_Loai()">
+            <option value="">-- Chọn loại --</option>
+            <option value="DT">Điện Thoại</option>
+            <option value="MT">Máy Tính</option>
+        </select>
+        <br><br>
+        Đơn giá: <input type="text" id="don_gia" readonly><br><br>
+        Nơi nhận hàng
+        <input type="radio" name="dia_chi" onchange="hien_thi(false)">Nội Thành
+        <input type="radio" name="dia_chi" onchange="hien_thi(true)">Ngoại Thành<br><br>
+        <p id="phi_vc" style="display: none;">
+            Phí vận chuyển: <input type="number" id="phi" value="100000" readonly><br><br>
+        </p>
+        <button type="submit">Đặt Hàng</button>
+    </form>
+    <script>
+        function chon_Loai() {
+            let loai = document.getElementById("loai").value;
+            let don_gia = document.getElementById("don_gia");
+            if(loai === "DT"){
+                don_gia.value = "5000000";
+            } else if(loai === "MT"){
+                don_gia.value = "10000000";
+            } else {
+                don_gia.value = "";
+            }
+        }
+        function hien_thi(visible) {
+            // visible là tham số truyền vào (true hoặc false)
+            // true: hiển còn false: ẩn
+            let phi_vc = document.getElementById("phi_vc");
+            if(visible){
+                phi_vc.style.display = "block";// hiển thị
+            }else{
+                phi_vc.style.display = "none";// ẩn
+            }
+        }
+        function kiem_tra() {
+            // sản phẩm
+            var sp = document.getElementById("san_pham");
+            if (sp.value.trim() == "") {
+                alert("Vui lòng nhập tên sản phẩm!");
+                return false;
+            }
+
+            // loại
+            var loai = document.getElementById("loai");
+            if (loai.value == "") {
+                alert("Vui lòng chọn loại sản phẩm!");
+                return false;
+            }
+
+            // đơn giá
+            var gia = document.getElementById("don_gia");
+            if (gia.value.trim() == "" || isNaN(gia.value)) {
+                alert("Đơn giá phải là số!");
+                return false;
+            }
+            if (parseFloat(gia.value) <= 0) {
+                alert("Đơn giá phải > 0!");
+                return false;
+            }
+
+            // địa chỉ
+            var radio = document.getElementsByName("dia_chi");
+            if (!radio[0].checked && !radio[1].checked) {
+                alert("Vui lòng chọn nơi nhận hàng!");
+                return false;
+            }
+
+            alert("✔ Đặt hàng thành công!");
+            return true;
+        }
+    </script>
+</body>
+</html>
